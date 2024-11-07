@@ -4,539 +4,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload Modals</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-json.min.js"></script>
+    <title>Progress Indicator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../icon-delete/iconly.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ 
 </head>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: aliceblue;
-        }
- 
-        .button-container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            align-items: center;
-        }
- 
-        button {
-            width: 200px;
-            height: 50px;
-            margin: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
- 
-        button:hover {
-            background-color: #0056b3;
-        }
- 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
- 
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
- 
-        .modal-content {
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
- 
-        .modal-content h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
- 
-        input[type="text"] {
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 2px solid black;
-            padding: 7px;
-        }
- 
-        input[type="file"] {
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 2px dotted black;
-            opacity: 50%;
-            padding: 23px;
-        }
- 
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-            color: #aaa;
-        }
- 
-        #OK {
-            background-color: #4BB543;
-            position: relative;
-            top: 6px;
-            left: 89px;
-        }
- 
-        #number {
-            padding: 10px;
-            position: relative;
-            top: 10px;
-        }
- 
-        #styled-input {
-            width: 90%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
- 
-        #roleContainer {
-            height: auto;
-        }
- 
-        .btposition {
-            display: flex;
-        }
- 
-        .data-container,
-        .edit-container {
-            display: none;
-        }
- 
-        .data-container.active,
-        .edit-container.active {
-            display: flex;
-            flex-wrap: wrap;
- 
-        }
- 
-        .data-container.active {
-            flex: 1;
- 
-        }
- 
-        .button-json {
-            background-color: #000000;
-            color: #bfbfbf;
-            border: none;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
- 
-        .button-json:hover {
-            background-color: #000000;
-        }
- 
- 
-        .Json-content {
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: 8px;
-            width: 80%;
-            height: auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
- 
-        .wrapper {
-            display: flex;
-            flex: 1;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
- 
-        .edit-container {
-            height: 500px;
-            flex: 3;
-            overflow-x: auto;
-            background-color: #f2f5f2;
-        }
- 
-        .edit-button.active {
-            display: flex;
-            position: relative;
-        }
- 
-        .edit-button {
-            display: none;
-        }
- 
-        #Finish {
-            position: absolute;
-            right: 145px;
-            bottom: 0;
-            border: 5px;
-            width: 126px;
-        }
- 
-        #Edit {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            border: 5px;
-            width: 126px;
-        }
-    </style>
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
  
 <body>
-    <div class="button-container">
-        <button class="local-button">Local</button>
-        <button class="github-button">GitHub</button>
-        <button class="folder-button">Select File </button>
-        <button class="role-button">Role</button>
-        <button class="get-button">Check JSON</button>
-    </div>
  
-    <div class="modal" id="fileModal">
-        <div class="modal-content">
-            <span class="close" id="closeModel">&times;</span>
-            <h2>Upload a File</h2>
-            <input type="file" id="file-upload" webkitdirectory directory multiple>
-            <button id="uploadBtn">Upload</button>
-        </div>
-    </div>
- 
-    <div class="modal" id="gitModal">
-        <div class="modal-content">
-            <span class="close" id="closeModel1">&times;</span>
-            <h2>Provide a Link to the Repository</h2>
-            <input type="text" id="repo-link-input" placeholder="Enter repository link">
-            <input type="text" id="branch" placeholder="Enter branch name">
-            <input type="text" id="token-input" placeholder="Enter GitHub Personal Access Token">
-            
-            <button id="uploadBtn1">Upload</button>
-        </div>
-    </div>
- 
-    <div class="modal" id="folderModal">
-        <div class="modal-content">
-            <span class="close" id="closeModel2">&times;</span>
-            <h2>Give a Folder Name </h2>
-            <label for="root">Root Directory</label>
-            <input type="text" name="root" id="root">
-            <label for="routers">Routers</label>
-            <input type="text" name="routers" id="routers">
-            <label for="schemas">Schemas</label>
-            <input type="text" name="schemas" id="schemas">
-            <button id="uploadBtn3">FOLDER SELECTION</button>
-            <button id="uploadBtn2">MODEL PROCESSING</button>
-
-        </div>
-    </div>
- 
-    <div class="modal" id="Success">
-        <div class="modal-content">
-            <span class="close" id="closeModel3">&times;</span>
-            <h2>Cloned Success</h2>
-            <button id="OK">Go TO Home Page</button>
-        </div>
-    </div>
-    <div class="modal" id="role">
-        <div class="modal-content">
-            <span class="close" id="closeModel4">&times;</span>
-            <h2>Enter the Roles Using Add </h2>
-            <div id="roleContainer">
-                <input type="text" id="styled-input" placeholder="Role Name">
-            </div>
-            <div class="btposition">
-                <button class="add">Add</button>
-                <button class="delete">delete </button>
-                <button id="saveButton" onclick="storeRoleInputs()">Save</button>
-            </div>
-        </div>
-    </div>
- 
- 
- 
-    <div class="modal" id="get-json">
-        <div class="Json-content">
-            <span class="close" id="closeModel5">&times;</span>
-            <h2>Get The JSON</h2>
-            <div class="wrapper">
-                <div class="data-container">
+    <div class="container">
+        <div class="progress-container">
+            <!-- Step 1 - Completed -->
+            <div onclick="skipStep(event)" id="step1" class="step in-progress">
+                <div class="circle">
+                    <div class="inner-circle"></div>
+                    <div class="line"></div>
                 </div>
-                <div class="edit-container">
+                <div class="step-label">STEP 1</div>
+                <div class="step-heading">Select Source</div>
+                <div class="step-status">In-Process</div>
+            </div>
+            <!-- Step 2 - Completed -->
+            <div onclick="skipStep(event)" id="step2" class="step pending">
+                <div class="circle">
+                    <div class="inner-circle hidden"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="step-label">STEP 2</div>
+                <div class="step-heading">Model Processing</div>
+                <div class="step-status">Pending</div>
+            </div>
+ 
+            <!-- Step 3 - Completed -->
+            <div onclick="skipStep(event)" id="step3" class="step pending ">
+                <div class="circle">
+                    <div class="inner-circle hidden"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="step-label">STEP 3</div>
+                <div class="step-heading">Role Selection</div>
+                <div class="step-status">pending</div>
+            </div>
+ 
+            <!-- Step 4 - Pending -->
+            <div onclick="skipStep(event)" id="step4" class="step pending">
+                <div class="circle">
+                    <div class="inner-circle hidden"></div>
+                </div>
+                <div class="step-label">STEP 4</div>
+                <div class="step-heading">Validate JSON</div>
+                <div class="step-status">Pending</div>
+            </div>
+        </div>
+ 
+        <p id="change-name">Select Source</p>
+        <div class="content-container">
+            <!-- ############################################################################################################## -->
+ 
+            <p id="topic">Select Method of Link</p>
+            <div class="files ">
+                <label class="localr custom-radio">
+                    <input type="radio" name="option" />
+                    <span class="radio-checkmark"></span>
+                    Local
+                </label>
+                <div id="local-input" class="space hidden">
+                    <div class="custom-file-upload ">
+                        <input type="text" onclick="openFile.click()" class="file-name-display"
+                            placeholder="Choose a file..." readonly>
+                        <div class="space1">
+                            <div class="n">
+                                <label for="file-upload" class="file-upload-label">Browse</label>
+                            </div>
+                        </div>
+                        <input type="file" id="file-upload" class="file-upload-input" onchange="displayFileName()"
+                            webkitdirectory directory multiple>
+                    </div>
+                </div>
+                <label class="githubr custom-radio">
+                    <input type="radio" name="option" />
+                    <span class="radio-checkmark"></span>
+                    Git Hub
+                </label>
+                <div id="git-input" class="space hidden">
+                    <div class="custom-input">
+                        <input type="text" id="url" placeholder="Enter the URL ">
+                        <input type="text" id="token" placeholder="Enter the Token ">
+                        <input type="text" id="branch" placeholder="Enter the Branch Name ">
+                    </div>
                 </div>
             </div>
-            <button id="get-files">Get Files</button>
-            <div class="edit-button">
-                <button id="Edit">Edit</button>
-                <button id="Finish">Finish</button>
+ 
+            <!-- ############################################################################################################## -->
+            <div class="folders hidden">
+                <div class="input-lable">
+                    <label for="language">Language</label>
+                    <label for="root">Root Directory</label>
+                    <label for="routers">Routers</label>
+                    <label for="schemas">Schemas</label>
+                </div>
+                <div class="inputboxs">
+                    <input type="text" name="language" id="language"
+                        placeholder="Enter the Language(Python,ROR,etc...)">
+ 
+                    <input type="text" name="root" id="root" placeholder="Enter the Root File Name">
+ 
+                    <input type="text" name="routers" id="routers" placeholder="Enter the Routers File Name">
+ 
+                    <input type="text" name="schemas" id="schemas" placeholder="Enter the Schemas File Name">
+                </div>
+                <div class="loading hidden"></div>
+            </div>
+            <!-- ################################################################################################################################### -->
+            <div class="role hidden">
+                <h4 id="heading-role">Role</h4>
+                <div class="role-containter">
+                    <div class="role-containter adder">
+                        <input type="text" class="styled-input" placeholder="Role Name">
+ 
+                    </div>
+ 
+                    <p id="add-role" onclick="addRole()"> <i class="fas fa-plus"></i> Add Role</p>
+ 
+                </div>
+                <div id="role-list"></div>
+                <div class="roleloading loading hidden"></div>
+            </div>
+            <!-- ################################################################################################################################### -->
+            <div class="json-container hidden">
+                <div class="validate-json">
+                    <div class="json-files">
+                        <p>Choose File</p>
+                        <div class="butt">
+                            <div class="butcontainer">
+                                <!-- <i class="icon icon-document"></i>
+                                <button class="butt-file">index.json</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="json-data">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="back">
+                <p id="back-button" onclick="goBack()"><-- Back</p>
+            </div>
+            <div class="footerbutton">
+                <button id="cancel">Cancel</button>
+                <button class="hidden" id="edit">Edit</button>
+                <button id="next">Next</button>
             </div>
  
         </div>
-    </div>
+ 
+ 
+</body>
+<script>
  
  
  
+    const openFile = document.getElementById('file-upload');
+    function displayFileName() {
+        const fileInput = document.getElementById('file-upload');
+        const fileNameDisplay = document.querySelector('.file-name-display');
  
-    <script>
-        let rolesArray = [];
-        const role = document.querySelector('.add');
-        const deleteButton = document.querySelector('.delete');
-        const roleContainer = document.getElementById('roleContainer');
-        const buttonContainer = document.querySelector('.button-container');
-        const fileModal = document.getElementById('fileModal');
-        const gitModal = document.getElementById('gitModal');
-        const roleData = document.getElementById('role');
-        const folderModal = document.getElementById('folderModal');
-        const folderButton = document.querySelector('.folder-button');
-        const roleButton = document.querySelector('.role-button');
-        const Success = document.getElementById('Success');
+        if (fileInput.files.length > 0) {
+            const firstFilePath = fileInput.files[0].webkitRelativePath;
  
-        const getFiles = document.getElementById('get-files');
-        const getJson = document.getElementById('get-json');
-        const dataContainer = document.querySelector('.data-container');
-        const editContainer = document.querySelector('.edit-container');
-        const editButton = document.querySelector('.edit-button');
-        const edit = document.getElementById('Edit');
-        const finish = document.getElementById('Finish');
-        const openJson = document.querySelector('.get-button');
+            // Extract the folder name by taking everything before the first '/' in the path
+            const folderName = firstFilePath.split('/')[0];
  
-        // Open modals
-        role.addEventListener('click', function () {
- 
-            if (roleContainer.offsetHeight >= 50) {
-                roleContainer.style.maxHeight = "330px"
-                roleContainer.style.overflow = 'auto';
-            }
-            const inputBox = document.createElement('input');
-            inputBox.setAttribute('type', 'text');
-            inputBox.setAttribute('id', 'styled-input');
-            inputBox.setAttribute('placeholder', 'Role Name');
-            roleContainer.appendChild(inputBox);
-        });
-        deleteButton.addEventListener('click', function () {
-            if (roleContainer.childElementCount > 1) {
-                console.log(roleContainer.childElementCount)
-                roleContainer.removeChild(roleContainer.lastElementChild);
-            }
- 
-        })
-        const saveButton = document.getElementById('saveButton');
-        saveButton.addEventListener('click', storeRoleInputs);
- 
-        function storeRoleInputs() {
-            rolesArray.length = 0; // Clear the array directly
- 
-            const inputElements = document.querySelectorAll('#roleContainer input[type="text"]');
-            inputElements.forEach((input) => {
-                if (input.value.trim() !== "") {
-                    rolesArray.push(input.value.trim());
-                }
-            });
- 
-            console.dir(rolesArray); // Log the array to verify
+            // Display the folder name
+            fileNameDisplay.value = folderName;
         }
-        document.getElementById('saveButton').addEventListener('click', async function () {
-            console.log(rolesArray)
-            if (rolesArray.length > 0) { // Ensure rolesArray has entries
-                try {
-                    const response = await fetch('http://127.0.0.1:8000/process_json/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        // Send `rolesArray` directly if `detail` wrapping is unnecessary
-                        body: JSON.stringify(rolesArray)
-                    });
+    }
  
-                    if (!response.ok) {
-                        const errorDetails = await response.json();
-                        console.error("Error details:", JSON.stringify(errorDetails, null, 2));
-                        throw new Error(errorDetails.detail || 'Unknown error occurred.');
+    //first Page
+ 
+    //varibles
+ 
+    const local = document.querySelector('.localr');
+    const localInput = document.getElementById('local-input');
+ 
+ 
+    const github = document.querySelector('.githubr');
+    const gitInput = document.getElementById('git-input');
+ 
+ 
+    const nextButton = document.getElementById('next');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    const fileContainer = document.querySelector('.files');
+    const paragraphTopic = document.getElementById('topic');
+    const folderContainer = document.querySelector('.folders');
+    const roleContainer = document.querySelector('.role');
+    const jsonContainer = document.querySelector('.json-container');
+ 
+    const JosnInputBtnContainer = document.querySelector('.butt');
+    let clickedFilename = ' ';
+ 
+    //    const addRole = document.getElementById('add-role');
+ 
+ 
+    local.addEventListener('click', function () {
+        localInput.classList.remove('hidden');
+        gitInput.classList.add('hidden');
+    });
+ 
+    github.addEventListener('click', function () {
+        localInput.classList.add('hidden');
+        gitInput.classList.remove('hidden');
+    });
+ 
+    function addRole() {
+        const roleAdder = document.querySelector('.adder');
+ 
+        // Create the input box
+        const inputBox = document.createElement('input');
+        inputBox.setAttribute('type', 'text');
+        inputBox.setAttribute('class', 'styled-input');
+        inputBox.setAttribute('placeholder', 'Role Name');
+ 
+        // Create the delete icon
+        const deleteIcon = document.createElement('i');
+        deleteIcon.classList.add('icon', 'icon-delete-button');
+ 
+        // Add event listener to delete icon to remove both input and icon when clicked
+        deleteIcon.addEventListener('click', function () {
+            inputBox.remove(); // Remove the input field
+            deleteIcon.remove(); // Remove the delete icon
+        });
+ 
+        // Append input box and delete icon to the role container
+        roleAdder.append(inputBox);
+        roleAdder.append(deleteIcon);
+    }
+    let screen = 1;
+ 
+    // Handle "Next" button click event
+    nextButton.addEventListener('click', async function () {
+        console.log('dddd')
+        const filesData = document.querySelector('.file-upload-input');
+        const progressContainer = document.querySelector('.progress-container');
+ 
+        // Handle different screens based on current `screen` value
+        if (screen === 1) {
+ 
+            if (!localInput.classList.contains('hidden')) {
+                // Local file upload
+                if (filesData && filesData.files.length > 0) {
+                    const formData = new FormData();
+                    const excludeFolders = ['.venv', 'venv', '__pycache__', '.git', '.vscode'];
+ 
+                    for (let file of filesData.files) {
+                        const relativePath = file.webkitRelativePath;
+                        if (!excludeFolders.some(folder => relativePath.includes(folder))) {
+                            formData.append('files', file, relativePath);
+                        }
                     }
  
-                    const result = await response.json();
-                    console.log(result);
-                    Success.classList.add('active');
-                    closeRole();
-                    document.getElementById('OK').addEventListener('click', function () {
-                        closeSucess();
+                    if (formData.has('files')) {
+                        try {
+                            const response = await fetch('http://127.0.0.1:8000/upload-folder', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            const result = await response.json();
  
- 
-                    });
-                } catch (error) {
-                    alert(`Failed to process data. Details: ${error.message}`);
-                }
-            } else {
-                alert('Please add at least one role before saving.');
-            }
-        });
- 
-        roleButton.addEventListener('click', function () {
-            roleData.classList.add('active');
-            buttonContainer.style.display = 'none';
-        });
- 
-        document.querySelector('.local-button').addEventListener('click', function () {
-            fileModal.classList.add('active');
-            buttonContainer.style.display = 'none';
-        });
- 
-        document.querySelector('.github-button').addEventListener('click', function () {
-            gitModal.classList.add('active');
-            buttonContainer.style.display = 'none';
-        });
-        document.querySelector('.folder-button').addEventListener('click', function () {
-            folderModal.classList.add('active');
-            buttonContainer.style.display = 'none';
-        });
-        openJson.addEventListener('click',function(){
-            getJson.classList.add('active');
-            buttonContainer.style.display = 'none';
-        })
- 
-        // Close modals
-        document.getElementById('closeModel').addEventListener('click', closeFileModal);
-        document.getElementById('closeModel1').addEventListener('click', closeGitModal);
-        document.getElementById('closeModel2').addEventListener('click', closeFolderModal);
-        document.getElementById('closeModel3').addEventListener('click', closeSucess);
-        document.getElementById('closeModel4').addEventListener('click', closeRole);
-        document.getElementById('closeModel5').addEventListener('click', closeJson);
- 
-        /*window.addEventListener('click', function (e) {
-            if (e.target === fileModal) closeFileModal();
-            if (e.target === gitModal) closeGitModal();
-            if (e.target === folderModal) closeFolderModal();
-            if (e.target === Success) closeFolderModal();
-        });*/
- 
-        // File Upload Logic
-        document.getElementById('uploadBtn').addEventListener('click', async function () {
-            const fileInput = document.getElementById('file-upload');
-            if (fileInput.files.length > 0) {
-                const formData = new FormData();
-                const excludeFolders = ['.venv', 'venv', '__pycache__', '.git', '.vscode'];
- 
-                for (let file of fileInput.files) {
-                    const relativePath = file.webkitRelativePath;
-                    if (!excludeFolders.some(folder => relativePath.includes(folder))) {
-                        formData.append('files', file, relativePath);
-                    }
-                }
- 
-                if (formData.has('files')) {
-                    try {
-                        const response = await fetch('http://127.0.0.1:8000/upload-folder', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        const result = await response.json();
-                        console.log(result);
-                        Success.classList.add('active');
-                        document.getElementById('OK').addEventListener('click', function () {
-                            closeSucess()
-                            closeFileModal();
-                            folderButton.style.display = 'block';
-                        });
-                    } catch (error) {
-                        console.error('Error uploading files:', error);
+                            // Update UI on successful response
+                            updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer,null);
+                            screen++;
+                        } catch (error) {
+                            console.error('Error during file upload:', error);
+                            alert('File upload failed. Please try again.');
+                        }
+                    } else {
+                        alert('No valid files to upload after excluding specific folders.');
                     }
                 } else {
-                    alert('No valid files to upload after excluding folders.');
+                    alert('No folder selected. Please choose a folder.');
                 }
             } else {
-                alert('No file selected. Please choose a file.');
-            }
-        });
+                // Git repository cloning
+                const repoLink = document.getElementById('url').value;
+                const token = document.getElementById('token').value;
+                const branch = document.getElementById('branch').value;
+                if (repoLink && token && branch) {
+                    try {
+                        const response = await fetch('http://127.0.0.1:8000/git-link', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ source_path: repoLink, token: token, branch: branch })
+                        });
  
-        // Git Upload Logic
-        document.getElementById('uploadBtn1').addEventListener('click', async function () {
-            const repoLink = document.getElementById('repo-link-input').value;
-            const token = document.getElementById('token-input').value;
-            const branch = document.getElementById('branch').value;
-            if (repoLink) {
-                try {
-                    const response = await fetch('http://127.0.0.1:8000/git-link', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            source_path: repoLink,
-                            token: token,
-                            branch:branch
-                        })
-                    });
+                        if (!response.ok) {
+                            const errorDetails = await response.json();
+                            throw new Error(errorDetails.detail || 'Unknown error occurred.');
+                        }
  
-                    if (!response.ok) {
-                        const errorDetails = await response.json();
-                        throw new Error(errorDetails.detail || 'Unknown error occurred.');
+                        const result = await response.json();
+ 
+                        const uiActions = updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer, null);
+                        screen++;
+ 
+                    } catch (error) {
+                        alert(`Failed to clone the repository. Details: ${error.message}`);
                     }
- 
-                    const result = await response.json();
-                    console.log(result);
-                    Success.classList.add('active');
-                    document.getElementById('OK').addEventListener('click', function () {
-                        closeSucess()
-                        closeGitModal();
-                        folderButton.style.display = 'block';
-                    });
-                } catch (error) {
-                    alert(`Failed to clone the repository. Details: ${error.message}`);
+                } else {
+                    alert('All fields are required for Git repository cloning.');
                 }
-            } else {
-                alert('Both repository link and token are required.');
             }
-        });
- 
-        //###############################################################################################################
- 
-        document.getElementById('uploadBtn2').addEventListener('click', async function () {
- 
+        } else if (screen === 2) {
+            const language = document.getElementById('language').value;
             const root = document.getElementById('root').value;
-            console.log(root)
             const routers = document.getElementById('routers').value;
-            console.log(routers)
             const schemas = document.getElementById('schemas').value;
-            console.log(schemas)
-            if (root && routers && schemas) {
+            folderContainer.style.opacity = '40%'; // 40% opacity
+            folderContainer.style.pointerEvents = 'none';
+            document.querySelector('.loading').classList.remove('hidden')
+            if (language && root && routers && schemas) {
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/process/', {
+                    const response = await fetch('http://127.0.0.1:8000/copy_and_process/', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
+                            language: language,
                             root_directory: root,
                             routers_name: routers,
                             schemas_name: schemas
@@ -549,44 +352,62 @@
                     }
  
                     const result = await response.json();
-                    console.log(result);
-                    Success.classList.add('active');
-                    document.getElementById('OK').addEventListener('click', function () {
-                        closeSucess()
-                        closeFolderModal()
-                        folderButton.style.display = 'block';
-                    });
+                    const uiActions = updateStepUI(step2, step3, folderContainer, null, roleContainer,null);
+                    folderContainer.style.opacity = '1'; // Full opacity
+                    folderContainer.style.pointerEvents = 'auto';
+                    document.querySelector('.loading').classList.add('hidden')
+                    screen++;
+ 
                 } catch (error) {
-                    alert(`Failed to clone the repository. Details: ${error.message}`);
+                    alert(`Error in processing the files: ${error.message}`);
                 }
             } else {
-                alert('Both repository link and token are required.');
+                alert('All fields are required.');
             }
-        });
+        } else if (screen === 3) {
+            console.log('step3')
+            let roleArray = [];
+            roleArray.length = 0;
  
-        //#######################################################
-        document.getElementById('uploadBtn3').addEventListener('click', async function () {
+            document.querySelector('.roleloading').classList.remove('hidden')
+            const adderElement = document.querySelector('.adder');
+            const inputElements = adderElement.querySelectorAll('input[type="text"]');
  
-            const root = document.getElementById('root').value;
-            console.log(root)
-            const routers = document.getElementById('routers').value;
-            console.log(routers)
-            const schemas = document.getElementById('schemas').value;
-            console.log(schemas)
-            if (root && routers && schemas) {
+            inputElements.forEach((input) => {
+                if (input.value.trim() !== "") {
+                    roleArray.push(input.value.trim());
+                }
+            });
+            try {
+                roleContainer.style.opacity = '40%'; // 40% opacity
+                roleContainer.style.pointerEvents = 'none'
+                const response = await fetch('http://127.0.0.1:8000/process_json/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // Send  directly if `detail` wrapping is unnecessary
+                    body: JSON.stringify(roleArray)
+                });
+                if (!response.ok) {
+                    const errorDetails = await response.json();
+                    console.error("Error details:", JSON.stringify(errorDetails, null, 2));
+                    throw new Error(errorDetails.detail || 'Unknown error occurred.');
+                }
+ 
+                const result = await response.json();
+                console.log("roleArray", roleArray);
+                const uiActions = updateStepUI(step3, step4, roleContainer, null, jsonContainer,null)
+                document.querySelector('.roleloading').classList.add('hidden')
+                roleContainer.style.opacity = '1'; // Full opacity
+                roleContainer.style.pointerEvents = 'auto';
+                screen++;
+                document.querySelector('.container').classList.add('json');
+                document.getElementById('edit').classList.remove('hidden');
+                document.getElementById('cancel').classList.add('hidden');
+                document.getElementById('next').textContent = 'Finish';
                 try {
-                    const response = await fetch('http://127.0.0.1:8000/copy_folders/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            project_name: root,
-                            routers_name: routers,
-                            schemas_name: schemas
-                        })
-                    });
- 
+                    const response = await fetch('http://127.0.0.1:8000/get-json-filename', { method: 'GET' });
                     if (!response.ok) {
                         const errorDetails = await response.json();
                         throw new Error(errorDetails.detail || 'Unknown error occurred.');
@@ -594,159 +415,288 @@
  
                     const result = await response.json();
                     console.log(result);
-                    Success.classList.add('active');
-                    document.getElementById('OK').addEventListener('click', function () {
-                        closeSucess()
-                        closeFolderModal()
-                        folderButton.style.display = 'block';
+                    result.filenames.forEach(filename => {
+                        const buttContainer = document.createElement('div');
+                        buttContainer.classList.add('butcontainer')
+                        const buttFile = document.createElement('button');
+                        buttFile.classList.add('butt-file')
+                        buttFile.innerHTML = filename;
+                        const fileIcon = document.createElement('i')
+                        fileIcon.classList.add('icon', 'icon-document')
+                        buttContainer.append(fileIcon);
+                        buttContainer.append(buttFile);
+                        JosnInputBtnContainer.append(buttContainer)
                     });
+                    clickedFilename = result.filenames[0];
+                    console.log("clickedFilename", clickedFilename)
+                    try {
+                        // Fetch JSON data
+                        console.log("212121212")
+                        const response = await fetch(`http://127.0.0.1:8000/get-json?filename=${clickedFilename}`, { method: 'GET' });
+                        if (!response.ok) {
+                            const errorDetails = await response.json();
+                            throw new Error(errorDetails.detail || 'Unknown error occurred.');
+                        }
+ 
+                        // Parse JSON response
+                        const result = await response.json();
+                        const contentDetails = result.content;
+                        const jsonData = document.querySelector('.json-data');
+                        const addPre = document.createElement('pre');
+                        addPre.textContent = JSON.stringify(contentDetails, null, 2);
+                        jsonData.append(addPre)
+                        console.log(result)
+                        jsonData.setAttribute('contenteditable', false);
+                    } catch (error) {
+                        console.error('Error fetching JSON Check file Path and api :', error);
+                    }
                 } catch (error) {
-                    alert(`Failed to clone the repository. Details: ${error.message}`);
+                    alert(`Failed to process data. Details: ${error.message}`);
                 }
-            } else {
-                alert('Both repository link and token are required.');
             }
-        });
- 
-        function closeFileModal() {
-            buttonContainer.style.display = 'flex';
-            fileModal.classList.remove('active');
+            catch (error) {
+                console.error('Error fetching JSON Files:', error);
+            }
         }
- 
-        function closeGitModal() {
-            buttonContainer.style.display = 'flex';
-            gitModal.classList.remove('active');
-        }
- 
-        function closeFolderModal() {
-            buttonContainer.style.display = 'flex';
-            folderModal.classList.remove('active');
-        }
-        function closeSucess() {
-            buttonContainer.style.display = 'flex';
-            Success.classList.remove('active');
-        }
-        function closeRole() {
-            buttonContainer.style.display = 'flex';
-            roleData.classList.remove('active');
-        }
- 
- 
-        function closeJson() {
-            buttonContainer.style.display = 'flex';
-            getJson.classList.remove('active');
-        }
- 
- 
-        //###################################################################################################################
- 
-        //  GET FILES
- 
-        getFiles.addEventListener('click', async function () {
+        else {
             try {
-                const response = await fetch('http://127.0.0.1:8000/get-json-filename', { method: 'GET' });
+                console.log('step4')
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
+ 
+        }
+    });
+ 
+    // Declare a global variable to store the clicked filename
+ 
+    // Add click event listener to the parent container for file selection
+    const buttons = document.querySelector('.butt');
+    buttons.addEventListener('click', async function (event) {
+        if (event.target && event.target.classList.contains('butt-file')) {
+            clickedFilename = event.target.textContent;  // Store the clicked filename globally
+            try {
+                // Fetch JSON data
+                const response = await fetch(`http://127.0.0.1:8000/get-json?filename=${clickedFilename}`, { method: 'GET' });
                 if (!response.ok) {
                     const errorDetails = await response.json();
                     throw new Error(errorDetails.detail || 'Unknown error occurred.');
                 }
-       
-                const result = await response.json();
-                console.log(result);
-                dataContainer.classList.add('active');
-                dataContainer.innerHTML = '';
-       
-                result.filenames.forEach(filename => {
-                    const para = document.createElement('button');
-                    para.classList.add("button-json");
-                    para.innerHTML = `${filename}`;
-                    dataContainer.append(para);
-       
-                    para.addEventListener('click', async function () {
-                        const clickedFilename = this.innerHTML;
-       
-                        try {
-                            // Fetch JSON data
-                            const response = await fetch(`http://127.0.0.1:8000/get-json?filename=${clickedFilename}`, { method: 'GET' });
-                            if (!response.ok) {
-                                const errorDetails = await response.json();
-                                throw new Error(errorDetails.detail || 'Unknown error occurred.');
-                            }
-       
-                            // Parse JSON response
-                            const result = await response.json();
-                            console.log(result);
-       
-                            const content = result.content;
-                            console.log("content", content);
-       
-                            // Activate the container if it's not already visible
-                            editContainer.classList.add('active');
-                            editButton.classList.add('active');
-       
-                            // Clear previous content before adding new content
-                            editContainer.innerHTML = '';
-       
-                            // Create and add formatted content
-                            const contentData = document.createElement('pre');
-                            contentData.textContent = JSON.stringify(content, null, 2);
-                            editContainer.append(contentData);
-       
-                            // Event listener for edit button
-                            edit.addEventListener('click', function () {
-                                const isEditable = editContainer.isContentEditable;
-                                editContainer.setAttribute('contenteditable', !isEditable);
-                                edit.textContent = isEditable ? 'Edit' : 'Save'; // Change button text based on state
-       
-                                if (!isEditable) {
-                                    // When saving, parse and prepare data for updating
-                                    const editedData = contentData.textContent;
-                                   
-                                    finish.addEventListener('click', async function () {
-                                        editContainer.setAttribute('contenteditable', 'false');
-                                        const editedData = contentData.textContent;
-                                   
-                                        try {
-                                            const jsonData = JSON.parse(editedData); // Ensure the edited data is valid JSON
-                                   
-                                            const response = await fetch(`http://127.0.0.1:8000/update/json?filename=${clickedFilename}`, {
-                                                method: 'PUT',
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                },
-                                                body: JSON.stringify({ content: jsonData }) // Ensure this structure matches your API expectations
-                                            });
-                                   
-                                            if (!response.ok) {
-                                                const errorDetails = await response.json(); // Get error details from response
-                                                console.error('Error response:', errorDetails); // Log the full error response
-                                                throw new Error(errorDetails.detail || 'Unknown error occurred.');
-                                            }
-                                   
-                                            const result = await response.json(); // Parse the success response
-                                            console.log('Success:', result);
-                                            alert('JSON updated successfully!'); // Feedback to user
-                                   
-                                        } catch (error) {
-                                            console.error('Error updating JSON:', error); // Log the error object
-                                            alert('Failed to update JSON: ' + error.message); // Show error message to user
-                                        }
-                                    });
-                                }
-                            });
-       
-                        } catch (error) {
-                            console.error('Error fetching JSON:', error);
-                        }
-                    });
-                });
-       
-            } catch (error) {
-                alert(`Failed to get the File. Details: ${error.message}`);
-            }
-        });
-       
  
-    </script>
-</body>
+                // Parse JSON response
+                const result = await response.json();
+                const contentDetails = result.content;
+                const jsonData = document.querySelector('.json-data');
+                jsonData.innerHTML = '';  // Clear previous content
+ 
+                const addPre = document.createElement('pre');
+                addPre.textContent = JSON.stringify(contentDetails, null, 2);
+                jsonData.append(addPre);
+                console.log(result);
+ 
+            } catch (error) {
+                alert(`Failed to process data. Details: ${error.message}`);
+            }
+        }
+    });
+ 
+    // Add event listener to the 'edit' button
+    const edit = document.getElementById('edit');
+    const finish = document.getElementById('next');
+    const jsonData = document.querySelector('.json-data');  // Assuming this is the editable content container
+ 
+    edit.addEventListener('click', function () {
+        const isEditable = jsonData.isContentEditable;
+        jsonData.setAttribute('contenteditable', !isEditable);
+        edit.textContent = isEditable ? 'Edit' : 'Save';
+        console.log("clickedFilenameedit", clickedFilename)
+ 
+        if (!isEditable) {
+            // When saving, parse and prepare data for updating
+            const editedData = jsonData.textContent;
+ 
+            finish.addEventListener('click', async function () {
+                // Ensure content is not editable during the update
+                jsonData.setAttribute('contenteditable', 'false');
+                const editedData = jsonData.textContent;  // Get the edited content
+ 
+                try {
+                    const jsonDataParsed = JSON.parse(editedData);  // Ensure the edited data is valid JSON
+                    console.log("clickedFilenameedited data jsoin", clickedFilename)
+                    console.log("jsonDataParsed", jsonDataParsed)
+ 
+                    const response = await fetch(`http://127.0.0.1:8000/update/json?filename=${clickedFilename}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ content: jsonDataParsed })  // Ensure this structure matches your API expectations
+                    });
+ 
+                    if (!response.ok) {
+                        const errorDetails = await response.json();  // Get error details from response
+                        console.error('Error response:', errorDetails);  // Log the full error response
+                        throw new Error(errorDetails.detail || 'Unknown error occurred.');
+                    }
+ 
+                    const result = await response.json();  // Parse the success response
+                    console.log('Success:', result);
+                    alert('JSON updated successfully!');  // Feedback to user
+                    updateStepUI(step4, null, null, null, null, null);
+ 
+                } catch (error) {
+                    console.error('Error updating JSON:', error);  // Log the error object
+                    alert('Failed to update JSON: ' + error.message);  // Show error message to user
+                }
+            });
+        }
+    });
+ 
+ 
+    // Update step UI function
+    function updateStepUI(currentStep, nextStep, hideContainer1, hideContainer2, showContainer, isBack = false, topic) {
+        if (isBack) {
+            // Going back: mark the current step as pending
+            currentStep.classList.remove('in-progress');
+            currentStep.classList.add('pending');
+            currentStep.children[0].classList.remove('completed');
+            currentStep.children[0].children[0].classList.add('hidden')
+            currentStep.lastElementChild.textContent = 'Pending';
+ 
+ 
+            // Mark the previous step as in-progress
+            if (nextStep) {
+                nextStep.classList.remove('completed');
+                nextStep.classList.add('in-progress');
+                nextStep.children[0].children[0].textContent = '';
+                nextStep.children[0].children[0].classList.add('inner-circle');
+                nextStep.children[0].children[0].classList.remove('hidden');
+                nextStep.lastElementChild.textContent = 'InProgress';
+            }
+        } else {
+            // Move forward: mark the current step as completed
+            currentStep.classList.remove('in-progress');
+            currentStep.classList.add('completed');
+            currentStep.children[0].classList.add('completed');
+            currentStep.children[0].children[0].textContent = '✔';
+            currentStep.lastElementChild.textContent = 'Completed';
+            currentStep.children[0].children[0].classList.remove('inner-circle')
+ 
+            if (nextStep) {
+                nextStep.classList.remove('pending');
+                nextStep.classList.add('in-progress');
+                nextStep.children[0].children[0].classList.remove('hidden');
+                nextStep.lastElementChild.textContent = 'InProgress';
+                document.getElementById('change-name').textContent = topic;
+            }
+ 
+            if (hideContainer1) hideContainer1.classList.add('hidden');
+            if (hideContainer2) hideContainer2.classList.add('hidden');
+            if (showContainer) showContainer.classList.remove('hidden');
+        }
+ 
+        // Update container visibility
+        if (hideContainer1) hideContainer1.classList.add('hidden');
+        if (hideContainer2) hideContainer2.classList.add('hidden');
+        if (showContainer) showContainer.classList.remove('hidden');
+    }
+ 
+    function goBack() {
+        if (screen === 2) {
+            // Going back from step 2 to step 1
+            updateStepUI(step2, step1, folderContainer, null, fileContainer, true);
+        } else if (screen === 3) {
+            // Going back from step 3 to step 2
+            updateStepUI(step3, step2, roleContainer, null, folderContainer, true);
+        } else if (screen === 4) {
+ 
+            updateStepUI(step4, step3, jsonContainer, null, roleContainer, true);
+        } else {
+            console.log('Already at the beginning');
+        }
+        // Update screen counter
+        screen--;
+    }
+ 
+    // Function for skipping a step
+    function skipStep(event) {
+        if (event && event.target && event.target.id) {
+            // Check if the clicked element is step1 and is completed
+            if (event.target.id.includes('step1') && event.target.classList.contains('completed')) {
+                console.log('step1');
+                ToSelected(step1, [step2, step3, step4]); // Call ToSelected for step1
+                screen = 1; // Update screen variable
+            }
+            // Similarly for other steps
+            else if (event.target.id.includes('step2') && event.target.classList.contains('completed')) {
+                console.log('step2');
+                ToSelected(step2, [step3, step4]); // Call ToSelected for step2
+                screen = 2; // Update screen variable
+            }
+            else if (event.target.id.includes('step3') && event.target.classList.contains('completed')) {
+                console.log('step3');
+                ToSelected(step3, [step4]); // Call ToSelected for step3
+                screen = 3; // Update screen variable
+            }
+            else if (event.target.id.includes('step4') && event.target.classList.contains('completed')) {
+                console.log('step4');
+                ToSelected(step4, [step1, step2, step3]); // Call ToSelected for step4
+                screen = 4; // Update screen variable
+            }
+        }
+    }
+   
+    // Function to change the current step to 'in-progress' and others to 'pending'
+    function ToSelected(goGo, otherPending) {
+        // Change the current step to 'in-progress'
+        goGo.classList.remove('completed');
+        goGo.classList.add('in-progress');
+        goGo.children[0].classList.remove('completed');
+        goGo.children[0].children[0].textContent = ''; // Remove the checkmark or content
+        goGo.children[0].children[0].classList.add('inner-circle');
+        goGo.children[0].children[0].classList.remove('hidden');
+        goGo.lastElementChild.textContent = 'InProgress';
+   
+        // Show and hide specific containers based on the current step
+        if (goGo === step1) {
+            console.log("step1");
+            fileContainer.classList.remove('hidden');
+            folderContainer.classList.add('hidden');
+            roleContainer.classList.add('hidden');
+            jsonContainer.classList.add('hidden');
+        } else if (goGo === step2) {
+            console.log("step2");
+            fileContainer.classList.add('hidden');
+            folderContainer.classList.remove('hidden');
+            roleContainer.classList.add('hidden');
+            jsonContainer.classList.add('hidden');
+        } else if (goGo === step3) {
+            console.log("step3");
+            fileContainer.classList.add('hidden');
+            folderContainer.classList.add('hidden');
+            roleContainer.classList.remove('hidden');
+            jsonContainer.classList.add('hidden');
+        } else {
+            console.log("step4");
+            fileContainer.classList.add('hidden');
+            folderContainer.classList.add('hidden');
+            roleContainer.classList.add('hidden');
+            jsonContainer.classList.remove('hidden');
+        }
+   
+        // Change the other steps to 'pending'
+        for (let i = 0; i < otherPending.length; i++) {
+            let step = otherPending[i];
+            step.classList.remove('completed');
+            step.classList.remove('in-progress');
+            step.classList.add('pending');
+            step.children[0].classList.remove('completed');
+            step.children[0].children[0].classList.add('hidden');
+            step.lastElementChild.textContent = 'Pending';
+        }
+    }
+   
+ 
+</script>
  
 </html>
