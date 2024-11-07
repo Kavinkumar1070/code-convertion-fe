@@ -20,9 +20,10 @@ body {
     background-color: #f8f9fe;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    border: 2px solid white;
+    padding: 20px 50px;
+    border: 1px solid white;
     border-radius: 15px;
+    font-size: small;
 }
  
 .progress-container {
@@ -31,7 +32,7 @@ body {
     justify-content: space-evenly;
     gap: 150px;
     background-color: #f8f9fe;
-    padding: 20px;
+    padding: 15px 0px 0px 0px;
     border-radius: 8px;
 }
  
@@ -42,11 +43,16 @@ body {
     background-color: #f8fafd;
     padding: 30px;
     border-radius: 22px;
-    width: 930px;
+    width: 946px;
     height: 500px;
     border: 3px solid #ffff;
-    padding-left: 55px;
+    padding-top: 42px;
+    padding-left: 45px;
  
+}
+#topic{
+    font-size: 15px;
+    font-weight: 500;
 }
  
 .step {
@@ -103,21 +109,20 @@ body {
 }
  
 .step-label {
-    font-size: 0.7em;
     color: #b3bec8;
+    padding-top: 11px;
 }
  
 .step-heading {
-    font-size: 0.85em;
-    font-weight: bold;
     text-align: start;
+    font-size: 14px;
+    font-weight: 600;
     color: #2b2b2b;
-    width: 120px;
+    width: 122px;
 }
  
 .step-status {
     padding-top: 12px;
-    font-size: 0.8em;
     color: #14ae5c;
 }
  
@@ -136,18 +141,19 @@ body {
 }
  
 #change-name {
-    font-weight: 500;
-    font-size: x-large;
     color: #8883bf;
-    padding-top: 20px;
-    padding-left: 23px;
+    padding-top: 34px;
+    font-size: 1.331em;
+    font-weight: 600;
 }
  
 .files>label {
     display: flex;
     align-items: center;
     color: #333;
+    font-size: 14px;
     padding: 11px;
+    padding-bottom: 21px;
 }
  
 input {
@@ -161,15 +167,16 @@ input {
 }
  
 button {
-    border: 2px solid #8a5cd4;
-    color: #988ffd;
-    width: 106px;
-    height: 35px;
-    border-radius: 6px;
+    width: 116px;
+    height: 45px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 12px;
 }
  
 #next {
-    background-color: #988ffd;
+    background-color: #978ffd;
     color: #ffffff;
 }
  
@@ -206,7 +213,6 @@ button {
 .file-name-display {
     flex: 1;
     padding: 10px;
-    font-size: 16px;
     padding-left: 20px;
     opacity: 68%;
     color: #555;
@@ -217,8 +223,7 @@ button {
  
 .space {
     padding-left: 33px;
-    padding-top: 33px;
-    padding-bottom: 33px;
+    padding-bottom: 10px;
 }
  
 .custom-input {
@@ -251,7 +256,6 @@ button {
     display: flex;
     height: 100%;
     gap: 20px;
-    padding-top: 50px;
  
  
 }
@@ -288,7 +292,6 @@ button {
 .role {
     display: flex;
     gap: 200px;
-    padding-top: 50px;
 }
  
 .role-containter>input[type=text] {
@@ -403,11 +406,6 @@ input[type="radio"] {
 .json-files {
     padding-right: 10px;
     padding-top: 35px;
-}
- 
-.add {
-    font-size: small;
-    color: #7468fc;
 }
  
 #heading-role {

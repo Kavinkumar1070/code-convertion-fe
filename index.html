@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="../icon-delete/iconly.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
- 
+
 </head>
 <style>
     .hidden {
         display: none;
     }
 </style>
- 
+
 <body>
- 
+
     <div class="container">
         <div class="progress-container">
             <!-- Step 1 - Completed -->
@@ -41,7 +41,7 @@
                 <div class="step-heading">Model Processing</div>
                 <div class="step-status">Pending</div>
             </div>
- 
+
             <!-- Step 3 - Completed -->
             <div onclick="skipStep(event)" id="step3" class="step pending ">
                 <div class="circle">
@@ -50,9 +50,9 @@
                 </div>
                 <div class="step-label">STEP 3</div>
                 <div class="step-heading">Role Selection</div>
-                <div class="step-status">pending</div>
+                <div class="step-status">Pending</div>
             </div>
- 
+
             <!-- Step 4 - Pending -->
             <div onclick="skipStep(event)" id="step4" class="step pending">
                 <div class="circle">
@@ -63,11 +63,11 @@
                 <div class="step-status">Pending</div>
             </div>
         </div>
- 
+
         <p id="change-name">Select Source</p>
         <div class="content-container">
             <!-- ############################################################################################################## -->
- 
+
             <p id="topic">Select Method of Link</p>
             <div class="files ">
                 <label class="localr custom-radio">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
- 
+
             <!-- ############################################################################################################## -->
             <div class="folders hidden">
                 <div class="input-lable">
@@ -113,11 +113,11 @@
                 <div class="inputboxs">
                     <input type="text" name="language" id="language"
                         placeholder="Enter the Language(Python,ROR,etc...)">
- 
+
                     <input type="text" name="root" id="root" placeholder="Enter the Root File Name">
- 
+
                     <input type="text" name="routers" id="routers" placeholder="Enter the Routers File Name">
- 
+
                     <input type="text" name="schemas" id="schemas" placeholder="Enter the Schemas File Name">
                 </div>
                 <div class="loading hidden"></div>
@@ -128,11 +128,11 @@
                 <div class="role-containter">
                     <div class="role-containter adder">
                         <input type="text" class="styled-input" placeholder="Role Name">
- 
+
                     </div>
- 
+
                     <p id="add-role" onclick="addRole()"> <i class="fas fa-plus"></i> Add Role</p>
- 
+
                 </div>
                 <div id="role-list"></div>
                 <div class="roleloading loading hidden"></div>
@@ -156,50 +156,50 @@
         </div>
         <div class="footer">
             <div class="back">
-                <p id="back-button" onclick="goBack()"><-- Back</p>
+                <p class="hidden" id="back-button" onclick="goBack()"><-- Back</p>
             </div>
             <div class="footerbutton">
-                <button id="cancel">Cancel</button>
+                <button class="hidden" id="cancel ">Cancel</button>
                 <button class="hidden" id="edit">Edit</button>
                 <button id="next">Next</button>
             </div>
- 
+
         </div>
- 
- 
+
+
 </body>
 <script>
- 
- 
- 
+
+
+
     const openFile = document.getElementById('file-upload');
     function displayFileName() {
         const fileInput = document.getElementById('file-upload');
         const fileNameDisplay = document.querySelector('.file-name-display');
- 
+
         if (fileInput.files.length > 0) {
             const firstFilePath = fileInput.files[0].webkitRelativePath;
- 
+
             // Extract the folder name by taking everything before the first '/' in the path
             const folderName = firstFilePath.split('/')[0];
- 
+
             // Display the folder name
             fileNameDisplay.value = folderName;
         }
     }
- 
-    //first Page
- 
+
+    //first Page 
+
     //varibles
- 
+
     const local = document.querySelector('.localr');
     const localInput = document.getElementById('local-input');
- 
- 
+
+
     const github = document.querySelector('.githubr');
     const gitInput = document.getElementById('git-input');
- 
- 
+
+
     const nextButton = document.getElementById('next');
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
@@ -210,70 +210,73 @@
     const folderContainer = document.querySelector('.folders');
     const roleContainer = document.querySelector('.role');
     const jsonContainer = document.querySelector('.json-container');
- 
+
     const JosnInputBtnContainer = document.querySelector('.butt');
+
+    const backButton = document.getElementById('back-button')
+    const topic = document.getElementById('change-name')
     let clickedFilename = ' ';
- 
+
     //    const addRole = document.getElementById('add-role');
- 
- 
+
+
     local.addEventListener('click', function () {
         localInput.classList.remove('hidden');
         gitInput.classList.add('hidden');
     });
- 
+
     github.addEventListener('click', function () {
         localInput.classList.add('hidden');
         gitInput.classList.remove('hidden');
     });
- 
+
     function addRole() {
         const roleAdder = document.querySelector('.adder');
- 
+
         // Create the input box
         const inputBox = document.createElement('input');
         inputBox.setAttribute('type', 'text');
         inputBox.setAttribute('class', 'styled-input');
         inputBox.setAttribute('placeholder', 'Role Name');
- 
+
         // Create the delete icon
         const deleteIcon = document.createElement('i');
         deleteIcon.classList.add('icon', 'icon-delete-button');
- 
+
         // Add event listener to delete icon to remove both input and icon when clicked
         deleteIcon.addEventListener('click', function () {
             inputBox.remove(); // Remove the input field
             deleteIcon.remove(); // Remove the delete icon
         });
- 
+
         // Append input box and delete icon to the role container
         roleAdder.append(inputBox);
         roleAdder.append(deleteIcon);
     }
     let screen = 1;
- 
+
     // Handle "Next" button click event
     nextButton.addEventListener('click', async function () {
         console.log('dddd')
         const filesData = document.querySelector('.file-upload-input');
         const progressContainer = document.querySelector('.progress-container');
- 
+
         // Handle different screens based on current `screen` value
         if (screen === 1) {
- 
+
             if (!localInput.classList.contains('hidden')) {
                 // Local file upload
                 if (filesData && filesData.files.length > 0) {
                     const formData = new FormData();
                     const excludeFolders = ['.venv', 'venv', '__pycache__', '.git', '.vscode'];
- 
+
                     for (let file of filesData.files) {
                         const relativePath = file.webkitRelativePath;
                         if (!excludeFolders.some(folder => relativePath.includes(folder))) {
                             formData.append('files', file, relativePath);
                         }
                     }
- 
+
                     if (formData.has('files')) {
                         try {
                             const response = await fetch('http://127.0.0.1:8000/upload-folder', {
@@ -281,9 +284,11 @@
                                 body: formData
                             });
                             const result = await response.json();
- 
+
                             // Update UI on successful response
-                            updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer,null);
+                            updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer, null);
+                            backButton.classList.remove('hidden');
+                            topic.textContent = "Model Processing";
                             screen++;
                         } catch (error) {
                             console.error('Error during file upload:', error);
@@ -300,29 +305,31 @@
                 const repoLink = document.getElementById('url').value;
                 const token = document.getElementById('token').value;
                 const branch = document.getElementById('branch').value;
-                if (repoLink && token && branch) {
+                if (repoLink && branch) {
                     try {
                         const response = await fetch('http://127.0.0.1:8000/git-link', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ source_path: repoLink, token: token, branch: branch })
                         });
- 
+
                         if (!response.ok) {
                             const errorDetails = await response.json();
                             throw new Error(errorDetails.detail || 'Unknown error occurred.');
                         }
- 
+
                         const result = await response.json();
- 
+
                         const uiActions = updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer, null);
+                        backButton.classList.remove('hidden');
+                        topic.textContent = "Model Processing";
                         screen++;
- 
+
                     } catch (error) {
                         alert(`Failed to clone the repository. Details: ${error.message}`);
                     }
                 } else {
-                    alert('All fields are required for Git repository cloning.');
+                    alert('Any One fields are required To cloning Project Please Select ("Local" or "Git Hub") .');
                 }
             }
         } else if (screen === 2) {
@@ -345,19 +352,21 @@
                             schemas_name: schemas
                         })
                     });
- 
+
                     if (!response.ok) {
                         const errorDetails = await response.json();
                         throw new Error(errorDetails.detail || 'Unknown error occurred.');
                     }
- 
+
                     const result = await response.json();
-                    const uiActions = updateStepUI(step2, step3, folderContainer, null, roleContainer,null);
+                    const uiActions = updateStepUI(step2, step3, folderContainer, null, roleContainer, null);
                     folderContainer.style.opacity = '1'; // Full opacity
                     folderContainer.style.pointerEvents = 'auto';
                     document.querySelector('.loading').classList.add('hidden')
+                    backButton.classList.remove('hidden')
+                    topic.textContent = "Role Selection"
                     screen++;
- 
+
                 } catch (error) {
                     alert(`Error in processing the files: ${error.message}`);
                 }
@@ -368,11 +377,11 @@
             console.log('step3')
             let roleArray = [];
             roleArray.length = 0;
- 
+
             document.querySelector('.roleloading').classList.remove('hidden')
             const adderElement = document.querySelector('.adder');
             const inputElements = adderElement.querySelectorAll('input[type="text"]');
- 
+
             inputElements.forEach((input) => {
                 if (input.value.trim() !== "") {
                     roleArray.push(input.value.trim());
@@ -394,17 +403,18 @@
                     console.error("Error details:", JSON.stringify(errorDetails, null, 2));
                     throw new Error(errorDetails.detail || 'Unknown error occurred.');
                 }
- 
+
                 const result = await response.json();
                 console.log("roleArray", roleArray);
-                const uiActions = updateStepUI(step3, step4, roleContainer, null, jsonContainer,null)
+                const uiActions = updateStepUI(step3, step4, roleContainer, null, jsonContainer, null)
                 document.querySelector('.roleloading').classList.add('hidden')
                 roleContainer.style.opacity = '1'; // Full opacity
                 roleContainer.style.pointerEvents = 'auto';
+                backButton.classList.remove('hidden')
+                topic.textContent = "Validate Json"
                 screen++;
                 document.querySelector('.container').classList.add('json');
                 document.getElementById('edit').classList.remove('hidden');
-                document.getElementById('cancel').classList.add('hidden');
                 document.getElementById('next').textContent = 'Finish';
                 try {
                     const response = await fetch('http://127.0.0.1:8000/get-json-filename', { method: 'GET' });
@@ -412,7 +422,7 @@
                         const errorDetails = await response.json();
                         throw new Error(errorDetails.detail || 'Unknown error occurred.');
                     }
- 
+
                     const result = await response.json();
                     console.log(result);
                     result.filenames.forEach(filename => {
@@ -437,7 +447,7 @@
                             const errorDetails = await response.json();
                             throw new Error(errorDetails.detail || 'Unknown error occurred.');
                         }
- 
+
                         // Parse JSON response
                         const result = await response.json();
                         const contentDetails = result.content;
@@ -464,12 +474,12 @@
             } catch (error) {
                 console.error("An error occurred:", error);
             }
- 
+
         }
     });
- 
+
     // Declare a global variable to store the clicked filename
- 
+
     // Add click event listener to the parent container for file selection
     const buttons = document.querySelector('.butt');
     buttons.addEventListener('click', async function (event) {
@@ -482,49 +492,49 @@
                     const errorDetails = await response.json();
                     throw new Error(errorDetails.detail || 'Unknown error occurred.');
                 }
- 
+
                 // Parse JSON response
                 const result = await response.json();
                 const contentDetails = result.content;
                 const jsonData = document.querySelector('.json-data');
                 jsonData.innerHTML = '';  // Clear previous content
- 
+
                 const addPre = document.createElement('pre');
                 addPre.textContent = JSON.stringify(contentDetails, null, 2);
                 jsonData.append(addPre);
                 console.log(result);
- 
+
             } catch (error) {
                 alert(`Failed to process data. Details: ${error.message}`);
             }
         }
     });
- 
+
     // Add event listener to the 'edit' button
     const edit = document.getElementById('edit');
     const finish = document.getElementById('next');
     const jsonData = document.querySelector('.json-data');  // Assuming this is the editable content container
- 
+
     edit.addEventListener('click', function () {
         const isEditable = jsonData.isContentEditable;
         jsonData.setAttribute('contenteditable', !isEditable);
         edit.textContent = isEditable ? 'Edit' : 'Save';
         console.log("clickedFilenameedit", clickedFilename)
- 
+
         if (!isEditable) {
             // When saving, parse and prepare data for updating
             const editedData = jsonData.textContent;
- 
+
             finish.addEventListener('click', async function () {
                 // Ensure content is not editable during the update
                 jsonData.setAttribute('contenteditable', 'false');
                 const editedData = jsonData.textContent;  // Get the edited content
- 
+
                 try {
                     const jsonDataParsed = JSON.parse(editedData);  // Ensure the edited data is valid JSON
                     console.log("clickedFilenameedited data jsoin", clickedFilename)
                     console.log("jsonDataParsed", jsonDataParsed)
- 
+
                     const response = await fetch(`http://127.0.0.1:8000/update/json?filename=${clickedFilename}`, {
                         method: 'PUT',
                         headers: {
@@ -532,18 +542,18 @@
                         },
                         body: JSON.stringify({ content: jsonDataParsed })  // Ensure this structure matches your API expectations
                     });
- 
+
                     if (!response.ok) {
                         const errorDetails = await response.json();  // Get error details from response
                         console.error('Error response:', errorDetails);  // Log the full error response
                         throw new Error(errorDetails.detail || 'Unknown error occurred.');
                     }
- 
+
                     const result = await response.json();  // Parse the success response
                     console.log('Success:', result);
                     alert('JSON updated successfully!');  // Feedback to user
                     updateStepUI(step4, null, null, null, null, null);
- 
+
                 } catch (error) {
                     console.error('Error updating JSON:', error);  // Log the error object
                     alert('Failed to update JSON: ' + error.message);  // Show error message to user
@@ -551,8 +561,8 @@
             });
         }
     });
- 
- 
+
+
     // Update step UI function
     function updateStepUI(currentStep, nextStep, hideContainer1, hideContainer2, showContainer, isBack = false, topic) {
         if (isBack) {
@@ -562,8 +572,8 @@
             currentStep.children[0].classList.remove('completed');
             currentStep.children[0].children[0].classList.add('hidden')
             currentStep.lastElementChild.textContent = 'Pending';
- 
- 
+
+
             // Mark the previous step as in-progress
             if (nextStep) {
                 nextStep.classList.remove('completed');
@@ -581,7 +591,7 @@
             currentStep.children[0].children[0].textContent = '✔';
             currentStep.lastElementChild.textContent = 'Completed';
             currentStep.children[0].children[0].classList.remove('inner-circle')
- 
+
             if (nextStep) {
                 nextStep.classList.remove('pending');
                 nextStep.classList.add('in-progress');
@@ -589,18 +599,18 @@
                 nextStep.lastElementChild.textContent = 'InProgress';
                 document.getElementById('change-name').textContent = topic;
             }
- 
+
             if (hideContainer1) hideContainer1.classList.add('hidden');
             if (hideContainer2) hideContainer2.classList.add('hidden');
             if (showContainer) showContainer.classList.remove('hidden');
         }
- 
+
         // Update container visibility
         if (hideContainer1) hideContainer1.classList.add('hidden');
         if (hideContainer2) hideContainer2.classList.add('hidden');
         if (showContainer) showContainer.classList.remove('hidden');
     }
- 
+
     function goBack() {
         if (screen === 2) {
             // Going back from step 2 to step 1
@@ -609,7 +619,7 @@
             // Going back from step 3 to step 2
             updateStepUI(step3, step2, roleContainer, null, folderContainer, true);
         } else if (screen === 4) {
- 
+
             updateStepUI(step4, step3, jsonContainer, null, roleContainer, true);
         } else {
             console.log('Already at the beginning');
@@ -617,7 +627,7 @@
         // Update screen counter
         screen--;
     }
- 
+
     // Function for skipping a step
     function skipStep(event) {
         if (event && event.target && event.target.id) {
@@ -638,14 +648,13 @@
                 ToSelected(step3, [step4]); // Call ToSelected for step3
                 screen = 3; // Update screen variable
             }
-            else if (event.target.id.includes('step4') && event.target.classList.contains('completed')) {
-                console.log('step4');
-                ToSelected(step4, [step1, step2, step3]); // Call ToSelected for step4
-                screen = 4; // Update screen variable
+            else {
+                // Update screen variable
+                console.log('You are in the last Step');
             }
         }
     }
-   
+
     // Function to change the current step to 'in-progress' and others to 'pending'
     function ToSelected(goGo, otherPending) {
         // Change the current step to 'in-progress'
@@ -656,7 +665,7 @@
         goGo.children[0].children[0].classList.add('inner-circle');
         goGo.children[0].children[0].classList.remove('hidden');
         goGo.lastElementChild.textContent = 'InProgress';
-   
+
         // Show and hide specific containers based on the current step
         if (goGo === step1) {
             console.log("step1");
@@ -678,12 +687,8 @@
             jsonContainer.classList.add('hidden');
         } else {
             console.log("step4");
-            fileContainer.classList.add('hidden');
-            folderContainer.classList.add('hidden');
-            roleContainer.classList.add('hidden');
-            jsonContainer.classList.remove('hidden');
         }
-   
+
         // Change the other steps to 'pending'
         for (let i = 0; i < otherPending.length; i++) {
             let step = otherPending[i];
@@ -695,8 +700,17 @@
             step.lastElementChild.textContent = 'Pending';
         }
     }
-   
- 
+
+
 </script>
- 
+
 </html>
+<!-- if (da.children.length > 0) {  // Check if there's at least one child
+console.log(da.children[0].classList.contains('in-progress'));
+} else {
+console.log('No children in the progress container.');
+}
+if(da.children[0].classList.contains('in-progress')){
+console.log("sadfasd",da.children[0].id)
+console.log('2312',da.childElementCount)
+} -->
