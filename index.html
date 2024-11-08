@@ -212,6 +212,46 @@
 
 </body>
 <script>
+// Target the specific .adder and .role elements
+const adderElement = document.querySelector('.role .adder');
+const nextBtn = document.getElementById('next');
+const roleSection = document.querySelector('.role');
+
+// Function to update the button text based on input content inside the specific .adder
+function updateButtonText() {
+    let hasInput = false;
+    const inputElements = adderElement.querySelectorAll('input[type="text"]'); // Only inputs inside this .adder
+
+    inputElements.forEach((input) => {
+        if (input.value.trim() !== "") {
+            hasInput = true;
+            nextBtn.textContent = hasInput ? 'Next' : 'Skip';
+        }
+    });
+
+    nextBtn.textContent = hasInput ? 'Next' : 'Skip';
+}
+
+// IntersectionObserver to detect when .role section becomes visible
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // When .role section is visible, attach event listener and update button text
+            adderElement.addEventListener('input', (event) => {
+                if (event.target.matches('input[type="text"]')) {
+                    updateButtonText(); // Only respond if an input inside this .adder is the target
+                }
+            });
+            updateButtonText(); // Initial check when section becomes visible
+        }
+    });
+}, { threshold: 0.1 }); // Adjust threshold if needed
+
+// Start observing the .role section
+observer.observe(roleSection);
+
+
+
     // Function to close the popup
     function closePopup() {
         document.getElementById("popup").style.display = "none";
@@ -332,6 +372,7 @@
     const backButton = document.getElementById('back-button')
     const topic = document.getElementById('change-name')
     let clickedFilename = ' ';
+    let roleArray = [];
 
     //    const addRole = document.getElementById('add-role');
 
@@ -511,6 +552,10 @@
                     backButton.classList.remove('hidden')
                     topic.textContent = "Role Selection"
                     screen++;
+                    if (roleArray) {
+                        document.getElementById('next').textContent = 'Skip';
+                    }   // Clear role array if necessary
+
 
                 } catch (error) {
                     alert(`Error in processing the files: ${error.message}`);
@@ -522,15 +567,17 @@
                 alert('All fields are required.');
             }
         } else if (screen === 3) {
-            console.log('step3')
+            console.log('step3');
             if (jsonData) {
                 jsonData.innerHTML = ''; // Clear displayed JSON data
             }
             if (jsonInputBtnContainer) {
                 jsonInputBtnContainer.innerHTML = '';
             }
-            let roleArray = [];
-            roleArray.length = 0;
+            // Clear role array if necessary
+
+
+
             const adderElement = document.querySelector('.adder');
             const inputElements = adderElement.querySelectorAll('input[type="text"]');
 
@@ -539,9 +586,9 @@
                     roleArray.push(input.value.trim());
                 }
             });
-            // Clear role array if necessary
-           
+            // Check roleArray length after filling it
             try {
+
                 roleContainer.style.opacity = '60%'; // 40% opacity
                 roleContainer.style.pointerEvents = 'none'
                 document.querySelector('.roleloading').classList.remove('hidden')
