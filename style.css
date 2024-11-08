@@ -668,3 +668,23 @@ height: 555px;
     border: 1px solid #978ffd;
     color: #978ffd;
 }
+@media screen and (max-width: 1539px){
+    .content-container {
+        height: 357px; /* Set height for .container */
+    }
+
+    .json .content-container {
+        height: 345px; /* Set height for .container inside .json */
+    }
+
+    .loading {
+        position: absolute; /* Ensure position is set for .loading */
+        left: 47%;  /* Position .loading element horizontally */
+        top: 57%;   /* Position .loading element vertically */
+    }
+
+    .popup {
+        position: absolute; /* Ensure position is set for .popup */
+        left: 30%;  /* Position .popup element horizontally */
+    }
+}
