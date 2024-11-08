@@ -23,7 +23,7 @@ body {
     padding: 20px 50px;
     border: 1px solid white;
     border-radius: 15px;
-    font-size: small;
+    font-size: smaller;
 }
  
 .progress-container {
@@ -31,8 +31,9 @@ body {
     align-items: center;
     justify-content: space-evenly;
     gap: 150px;
+    font-size: 12px;
+    padding-top: 7px;
     background-color: #f8f9fe;
-    padding: 15px 0px 0px 0px;
     border-radius: 8px;
 }
  
@@ -72,7 +73,7 @@ body {
     align-items: center;
     border-radius: 50%;
     background-color: #e0e0e0;
-    font-size: 0.75em;
+    font-size: 0.80em;;
     color: white;
 }
  
@@ -87,12 +88,12 @@ body {
  
 .completed .circle,
 .completed .line {
-    background-color: #8a5cd4;
+    background-color: #7468fc;
     border-color: #d2cffd;
 }
  
 .completed .circle {
-    background-color: #8a5cd4;
+    background-color: #7468fc;
 }
  
 .inner-circle {
@@ -171,6 +172,7 @@ button {
     height: 45px;
     border: none;
     font-size: 14px;
+    cursor: pointer;
     font-weight: 500;
     border-radius: 12px;
 }
@@ -273,6 +275,7 @@ button {
     flex-direction: column;
     gap: 20px;
     padding: 30px;
+    position: relative;
 }
  
 .inputboxs>input[type=text] {
@@ -386,7 +389,7 @@ input[type="radio"] {
  
 .validate-json {
     display: grid;
-    column-gap: 21px;
+    column-gap: 8px;
     grid-template-columns: 200px auto;
     height: 100%;
 }
@@ -402,10 +405,20 @@ input[type="radio"] {
     overflow-x: hidden;
     white-space: nowrap;
 }
+.json-files {
+    padding: 20px 0px 0px 8px;
+}
  
 .json-files {
     padding-right: 10px;
     padding-top: 35px;
+}
+ 
+.json-files>p {
+    color: #bfc8d1;
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 10px;
 }
  
 #heading-role {
@@ -422,7 +435,7 @@ input[type="radio"] {
     gap: 6px;
     border-radius: 5px;
     flex-direction: column;
-    padding-top: 10px;
+
  
 }
 .butcontainer{
@@ -452,6 +465,8 @@ input[type="radio"] {
     text-align: start;
     background-color: #fafbfe;
     color: black;
+    font-size: 14px;
+    font-weight: 400;
 }
  
 .adder {
@@ -487,6 +502,7 @@ input[type="radio"] {
     position: absolute;
     left: 50%;
     top: 50%;
+    z-index: 999;
 }
  
 @keyframes rotate {
@@ -497,6 +513,11 @@ input[type="radio"] {
  
 .back {
     color: #786dfc;
+    cursor: pointer;
+}
+#edit{
+    color: #8176fc;
+    border: 1px solid #8176fc;
 }
  
 #add-role {
@@ -545,8 +566,105 @@ flex-direction: column;
 gap: 15px;
 background-color: #f3f4fe;
 border: none;
-padding: 30px;
+padding: 10px;
 border-radius: 22px;
 width: 1036px;
 height: 555px;
+}
+
+/* Popup background overlay */
+.popup {
+    position: absolute;
+    top: 12px;
+    left: 36%;
+    width: 626px;
+    z-index: 1000;
+    animation: popIn 1.5s ease forwards;
+  }
+  
+  /* Popup content box */
+  .popup-content {
+    background-color: #D4F3DC;
+    border-radius: 8px;
+    width: 83%;
+    display: flex;
+    height: 46px;
+    position: relative;
+    padding-left: 27px;
+    align-items: center;
+    border: 1px solid #d0f2d9;
+    padding: 9px;
+    animation: popIn 0.5s ease forwards;
+}
+  
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 7px;
+    right: 19px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #33a852;
+  }
+  
+
+  
+  @keyframes popIn {
+    0% {
+        transform: scale(0); /* Start small */
+        opacity: 0; /* Start transparent */
+    }
+    60% {
+        transform: scale(1); /* Slightly larger */
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        transform: scale(1); /* Set to normal size */
+    }
+}
+
+.tick-icon {
+    animation: bounce 0.6s ease;
+}
+
+/* Bounce keyframe animation */
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+
+#language-dropdown ul {
+    list-style-type: none;
+    padding: 0;
+    position: absolute;
+    width: 83%;
+    left: 30px;
+    top: 80px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 2px rgba(116, 104, 245, 0.5);
+    border: none;
+    padding: 10px;
+    z-index: 998;
+}
+
+#language-dropdown ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#language-dropdown ul li:hover {
+    background-color: #edecfe;
+    color: #7468fc;
+    border-radius: 6px;
+}
+
+.folders > .inputboxs {
+    padding-top: 26px;
+}
+
+#cancel{
+    border: 1px solid #978ffd;
+    color: #978ffd;
 }
