@@ -687,4 +687,7 @@ height: 555px;
         position: absolute; /* Ensure position is set for .popup */
         left: 30%;  /* Position .popup element horizontally */
     }
+    .custom-input{
+        gap: 9px;
+    }
 }
