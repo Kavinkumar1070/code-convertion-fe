@@ -26,7 +26,6 @@
 </style>
 
 <body>
-
     <div class="container">
         <div class="progress-container">
             <!-- Step 1 - Completed -->
@@ -37,7 +36,7 @@
                 </div>
                 <div class="step-label">STEP 1</div>
                 <div class="step-heading">Select Source</div>
-                <div class="step-status">In-Process</div>
+                <div class="step-status">In Progress</div>
             </div>
             <!-- Step 2 - Completed -->
             <div onclick="skipStep(event)" id="step2" class="step pending">
@@ -47,7 +46,7 @@
                 </div>
                 <div class="step-label">STEP 2</div>
                 <div class="step-heading">Model Processing</div>
-                <div class="step-status">Pending</div>
+                <div class="step-status"></div>
             </div>
 
             <!-- Step 3 - Completed -->
@@ -58,7 +57,7 @@
                 </div>
                 <div class="step-label">STEP 3</div>
                 <div class="step-heading">Role Selection</div>
-                <div class="step-status">Pending</div>
+                <div class="step-status"></div>
             </div>
 
             <!-- Step 4 - Pending -->
@@ -68,7 +67,7 @@
                 </div>
                 <div class="step-label">STEP 4</div>
                 <div class="step-heading">Validate JSON</div>
-                <div class="step-status">Pending</div>
+                <div class="step-status"></div>
             </div>
         </div>
 
@@ -77,7 +76,7 @@
             <!-- ############################################################################################################## -->
 
             <p id="topic">Select Method of Link</p>
-            <div class="files ">
+            <div class="files  ">
                 <label class="localr custom-radio">
                     <input type="radio" name="option" />
                     <span class="radio-checkmark"></span>
@@ -86,10 +85,12 @@
                 <div id="local-input" class="space hidden">
                     <div class="custom-file-upload ">
                         <input type="text" onclick="openFile.click()" class="file-name-display"
-                            placeholder="Choose a file..." readonly>
+                            placeholder="Choose Folder" readonly>
                         <div class="space1">
                             <div class="n">
-                                <label for="file-upload" class="file-upload-label">Browse</label>
+                                <button class="file-upload-label">
+                                    <label for="file-upload" class="browse">Browse</label>
+                                </button>
                             </div>
                         </div>
                         <input type="file" id="file-upload" class="file-upload-input" onchange="displayFileName()"
@@ -99,20 +100,20 @@
                 <label class="githubr custom-radio">
                     <input type="radio" name="option" />
                     <span class="radio-checkmark"></span>
-                    Git Hub
+                    Git hub
                 </label>
                 <div id="git-input" class="space hidden">
                     <div class="custom-input">
-                        <input type="text" id="url" placeholder="Enter the URL ">
-                        <input type="text" id="token" placeholder="Enter the Token ">
-                        <input type="text" id="branch" placeholder="Enter the Branch Name ">
+                        <input type="text" id="url" placeholder="Enter your URL ">
+                        <input type="text" id="token" placeholder="Enter your Token ">
+                        <input type="text" id="branch" placeholder="Enter your Branch Name ">
                     </div>
                 </div>
                 <div class="fileloading loading hidden"></div>
             </div>
 
             <!-- ############################################################################################################## -->
-            <div class="folders hidden">
+            <div class="folders hidden ">
                 <div class="input-lable">
                     <label for="language">Language</label>
                     <label for="root" class="hidden">Root Directory</label>
@@ -123,29 +124,30 @@
                 </div>
                 <div class="inputboxs">
                     <!-- Language selection (single select) -->
-                    <input type="text" id="language" placeholder="Select Language" readonly
+                    <input type="text" id="language" placeholder="Choose language" readonly
                         onclick="toggleLanguageDropdown()" class="custom-input-field">
 
                     <!-- Language dropdown that appears on click -->
                     <div id="language-dropdown" class="hidden">
                         <ul id="dropdown">
-                            <li onclick="selectLanguage('python')">Python</li>
-                            <li onclick="selectLanguage('node.js')">Node.js</li>
-                            <li onclick="selectLanguage('next.js')">Next.js</li>
+                            <li onclick="selectLanguage('Python')">Python</li>
+                            <li onclick="selectLanguage('Node.js')">Node JS</li>
+                            <li onclick="selectLanguage('Next.js')">Next JS</li>
                             <li onclick="selectLanguage('ROR')">ROR</li>
                         </ul>
                     </div>
 
-                    <input type="text" name="root" id="root" placeholder="Enter the Root File Name"
+                    <input type="text" name="root" id="root" placeholder="Enter the root file name"
                         class="hidden custom-input-field">
-                    <input type="text" name="routers" id="routers" placeholder="Enter the Routers File Name"
+                    <input type="text" name="routers" id="routers" placeholder="Enter the routers file name"
                         class="hidden custom-input-field">
-                    <input type="text" name="schemas" id="schemas" placeholder="Enter the Schemas File Name"
+                    <input type="text" name="schemas" id="schemas" placeholder="Enter the schemas file name"
                         class="hidden custom-input-field">
-                    <input type="text" name="controller" id="controller" placeholder="Enter the Controller File Name"
+                    <input type="text" name="controller" id="controller" placeholder="Enter the controller file name"
                         class="hidden custom-input-field">
-                    <input type="text" name="dtos" id="dtos" placeholder="Enter the DTOs File Name"
+                    <input type="text" name="dtos" id="dtos" placeholder="Enter the dtos file name"
                         class="hidden custom-input-field">
+
                 </div>
                 <div class="folloading loading hidden"></div>
             </div>
@@ -159,7 +161,7 @@
 
                     </div>
 
-                    <p id="add-role" onclick="addRole()"> <i class="fas fa-plus"></i> Add Role</p>
+                    <p id="add-role" onclick="addRole()"> <i id="fas" class="fas fa-plus"></i> Add Role</p>
 
                 </div>
                 <div id="role-list"></div>
@@ -207,6 +209,23 @@
                 <button id="next">Next</button>
             </div>
         </div>
+    </div>
+    <div id="custom-alert" class="custom-alert hidden">
+        <div class="custom-alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </div>
+        <div>
+            <p id="custom-alert-message"></p>
+        </div>
+        <div>
+            <button id="custom-alert-ok">&times;</button>
+        </div>
+    </div>
+
 
 
 
@@ -247,13 +266,13 @@
 
         // Show the corresponding fields based on the selected language
         switch (language) {
-            case 'python':
+            case 'Python':
                 showFields(['root', 'routers', 'schemas']);
                 break;
-            case 'node.js':
+            case 'Node.js':
                 showFields(['root', 'routers', 'schemas']);
                 break;
-            case 'next.js':
+            case 'Next.js':
                 showFields(['root', 'controller', 'dtos']);
                 break;
             case 'ROR':
@@ -410,6 +429,7 @@
                             document.querySelector('.fileloading').classList.add('hidden')
 
                             // Update UI on successful response
+                            //fileNameDisplay.value = '';
                             updateStepUI(step1, step2, fileContainer, paragraphTopic, folderContainer, null);
                             backButton.classList.remove('hidden');
                             topic.textContent = "Model Processing";
@@ -419,19 +439,24 @@
                             fileContainer.style.pointerEvents = 'auto';
                             document.querySelector('.fileloading').classList.add('hidden')
                             console.error('Error during file upload:', error);
-                            alert('File upload failed. Please try again.');
+                            showCustomAlert('File upload failed. Please try again.');
                         }
                     } else {
                         fileContainer.style.opacity = '1'; // Full opacity
                         fileContainer.style.pointerEvents = 'auto';
                         document.querySelector('.fileloading').classList.add('hidden')
-                        alert('No valid files to upload after excluding specific folders.');
+                        showCustomAlert('No valid files to upload after excluding specific folders.');
                     }
                 } else {
                     fileContainer.style.opacity = '1'; // Full opacity
                     fileContainer.style.pointerEvents = 'auto';
                     document.querySelector('.fileloading').classList.add('hidden')
-                    alert('No folder selected. Please choose a folder.');
+                    document.querySelector('.file-name-display').setAttribute('placeholder', "No folder selected. Please choose a folder.");
+                    document.querySelector('.custom-file-upload').style.border = "1px solid red"
+                    setTimeout(() => {
+                        document.querySelector('.custom-file-upload').style.border = ""; // Reset to default
+                        document.querySelector('.file-name-display').setAttribute('placeholder', "Choose Folder");
+                    }, 3000);
                 }
             } else {
                 // Git repository cloning
@@ -467,13 +492,13 @@
                         fileContainer.style.opacity = '1'; // Full opacity
                         fileContainer.style.pointerEvents = 'auto';
                         document.querySelector('.fileloading').classList.add('hidden')
-                        alert(`Failed to clone the repository. Details: ${error.message}`);
+                        showCustomAlert(`Failed to clone the repository. Details: ${error.message}`);
                     }
                 } else {
                     fileContainer.style.opacity = '1'; // Full opacity
                     fileContainer.style.pointerEvents = 'auto';
                     document.querySelector('.fileloading').classList.add('hidden')
-                    alert('Any One fields are required To cloning Project Please Select ("Local" or "Git Hub") .');
+                    showCustomAlert('Any One fields are required To cloning Project Please Select ("Local" or "Git Hub") .');
                 }
             }
         } else if (screen === 2) {
@@ -515,13 +540,13 @@
                     screen++;
 
                 } catch (error) {
-                    alert(`Error in processing the files: ${error.message}`);
+                    showCustomAlert(`Error in processing the files: ${error.message}`);
                     folderContainer.style.opacity = '1'; // Full opacity
                     folderContainer.style.pointerEvents = 'auto';
                     document.querySelector('.folloading').classList.add('hidden')
                 }
             } else {
-                alert('All fields are required.');
+                showCustomAlert('All fields are required.');
             }
         } else if (screen === 3) {
             console.log('step3');
@@ -573,7 +598,7 @@
                 roleContainer.style.opacity = '1'; // Full opacity
                 roleContainer.style.pointerEvents = 'auto';
                 backButton.classList.remove('hidden')
-                topic.textContent = "Validate Json"
+                topic.textContent = "Validate JSON"
                 screen++;
                 document.querySelector('.container').classList.add('json');
                 document.getElementById('edit').classList.remove('hidden');
@@ -588,12 +613,22 @@
 
                     const result = await response.json();
                     console.log(result);
-                    result.filenames.forEach(filename => {
+                    result.filenames.forEach((filename, index) => {
                         const buttContainer = document.createElement('div');
                         buttContainer.classList.add('butcontainer')
+                        buttContainer.tabIndex = index + 1;
                         const buttFile = document.createElement('button');
                         buttFile.classList.add('butt-file')
+                        console.log(index)
+                        if (index === 0) {
+                            // Delay focus to ensure rendering is complete
+                            setTimeout(() => {
+                                buttFile.focus();
+                            }, 0);
+                        }
+                        
                         buttFile.innerHTML = filename;
+                        buttFile.tabIndex = index + 1;
                         const fileIcon = document.createElement('i')
                         fileIcon.classList.add('icon', 'icon-document')
                         buttContainer.append(fileIcon);
@@ -608,6 +643,7 @@
                         cancelBtnf.addEventListener('click', async function () {
                             try {
                                 console.log("Cancel button clicked");
+
 
                                 // Reset roleContainer UI to full opacity and re-enable pointer events
                                 roleContainer.style.opacity = '1';
@@ -629,17 +665,30 @@
                                 // Parse and display JSON response if applicable
                                 const result = await response.json();
                                 const contentDetails = result.content;
+                                const isEditable = jsonData.isContentEditable;
+                                jsonData.setAttribute('contenteditable', !isEditable);
+                                edit.textContent = 'Edit';
+
                                 if (jsonData) {
+                                    // Check if there is an existing <pre> element and remove it
+                                    const existingPre = jsonData.querySelector('pre');
+                                    if (existingPre) {
+                                        jsonData.removeChild(existingPre); // Remove the existing <pre> element
+                                    }
+
+                                    // Create a new <pre> element and append the updated content
                                     const addPre = document.createElement('pre');
-                                    addPre.textContent = JSON.stringify(contentDetails, null, 2);
+                                    addPre.textContent = JSON.stringify(contentDetails, null, 2); // Format JSON
                                     jsonData.append(addPre);
+
+                                    // Set contenteditable to false after updating
                                     jsonData.setAttribute('contenteditable', false);
                                 }
                                 console.log("JSON data reset successfully");
 
                             } catch (error) {
                                 console.error('Error handling cancel action:', error);
-                                alert(`Failed to handle cancel action. Details: ${error.message}`);
+                                showCustomAlert(`Failed to handle cancel action. Details: ${error.message}`);
                             }
                         });
 
@@ -673,7 +722,7 @@
                         console.error('Error fetching JSON Check file Path and api :', error);
                     }
                 } catch (error) {
-                    alert(`Failed to process data. Details: ${error.message}`);
+                    showCustomAlert(`Failed to process data. Details: ${error.message}`);
                 }
             }
             catch (error) {
@@ -723,7 +772,7 @@
                     jsonContainer.style.opacity = '1'; // Full opacity
                     jsonContainer.style.pointerEvents = 'auto';
                     document.querySelector('.jsonloading').classList.add('hidden')
-                    alert('Failed to update JSON: ' + error.message);  // Show error message to user
+                    showCustomAlert('Failed to update JSON: ' + error.message);  // Show error message to user
                 }
             } catch (error) {
                 console.error("An error occurred:", error);
@@ -759,7 +808,7 @@
                 console.log(result);
 
             } catch (error) {
-                alert(`Failed to process data. Details: ${error.message}`);
+                showCustomAlert(`Failed to process data. Details: ${error.message}`);
             }
         }
     });
@@ -784,7 +833,7 @@
             currentStep.classList.add('pending');
             currentStep.children[0].classList.remove('completed');
             currentStep.children[0].children[0].classList.add('hidden')
-            currentStep.lastElementChild.textContent = 'Pending';
+            //currentStep.lastElementChild.textContent = 'Pending';
 
 
             // Mark the previous step as in-progress
@@ -795,22 +844,33 @@
                 nextStep.children[0].children[0].textContent = '';
                 nextStep.children[0].children[0].classList.add('inner-circle');
                 nextStep.children[0].children[0].classList.remove('hidden');
-                nextStep.lastElementChild.textContent = 'InProgress';
+                nextStep.lastElementChild.textContent = 'In Progress';
             }
         } else {
             // Move forward: mark the current step as completed
             currentStep.classList.remove('in-progress');
             currentStep.classList.add('completed');
             currentStep.children[0].classList.add('completed');
-            currentStep.children[0].children[0].textContent = '✔';
+
+            // Create the SVG element for the check mark
+            const svgCheckMark = `
+<svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M2.99998 4.79298L1.35348 3.14648L0.646484 3.85348L2.99998 6.20698L7.85348 1.35348L7.14648 0.646484L2.99998 4.79298Z" fill="#ffff"></path>
+</svg>
+`;
+
+            // Insert the SVG instead of the '✔'
+            currentStep.children[0].children[0].innerHTML = svgCheckMark;
+
             currentStep.lastElementChild.textContent = 'Completed';
-            currentStep.children[0].children[0].classList.remove('inner-circle')
+            currentStep.children[0].children[0].classList.remove('inner-circle');
+
 
             if (nextStep) {
                 nextStep.classList.remove('pending');
                 nextStep.classList.add('in-progress');
                 nextStep.children[0].children[0].classList.remove('hidden');
-                nextStep.lastElementChild.textContent = 'InProgress';
+                nextStep.lastElementChild.textContent = 'In Progress';
                 document.getElementById('change-name').textContent = topic;
             }
 
@@ -856,30 +916,33 @@
     }
     // Function for skipping a step
     function skipStep(event) {
-        if (event && event.target && event.target.id) {
-            // Check if the clicked element is step1 and is completed
-            if (event.target.id.includes('step1') && event.target.classList.contains('completed')) {
-                console.log('step1');
-                ToSelected(step1, [step2, step3, step4]); // Call ToSelected for step1
-                screen = 1;
-            }
-            // Similarly for other steps
-            else if (event.target.id.includes('step2') && event.target.classList.contains('completed')) {
-                console.log('step2');
-                ToSelected(step2, [step3, step4]); // Call ToSelected for step2
-                screen = 2; // Update screen variable
-            }
-            else if (event.target.id.includes('step3') && event.target.classList.contains('completed')) {
-                console.log('step3');
-                ToSelected(step3, [step4]); // Call ToSelected for step3
-                screen = 3; // Update screen variable
-            }
-            else {
+        if (event && event.target) {
+            // Find the closest parent with a step ID
+            const stepElement = event.target.closest('.step');
+            if (!stepElement) return;
+
+            const stepId = stepElement.id; // Get the ID of the clicked step
+            const stepNumber = parseInt(stepId.replace('step', ''), 10); // Extract step number
+
+            if (stepElement.classList.contains('completed')) {
+                console.log(`Step ${stepNumber}`);
+
+                // Define step-specific logic dynamically
+                const steps = [step1, step2, step3, step4]; // Replace with actual step objects
+                const currentStep = steps[stepNumber - 1];
+                const nextSteps = steps.slice(stepNumber);
+
+                // Call ToSelected with dynamic arguments
+                ToSelected(currentStep, nextSteps);
+
                 // Update screen variable
-                console.log('You are in the last Step');
+                screen = stepNumber;
+            } else {
+                console.log('You are in the last Step or step not completed.');
             }
         }
     }
+
 
     // Function to change the current step to 'in-progress' and others to 'pending'
     function ToSelected(currentStep, otherSteps) {
@@ -903,7 +966,7 @@
         }
 
         // Configure the current step as 'in-progress'
-        setStepDisplay(currentStep, 'in-progress', 'InProgress');
+        setStepDisplay(currentStep, 'in-progress', 'In Progress');
         document.querySelector('.popup').classList.add('hidden');
         edit.classList.add('hidden');
         document.getElementById('cancel').classList.add('hidden');
@@ -940,8 +1003,45 @@
         }
 
         // Set other steps to 'pending'
-        otherSteps.forEach(step => setStepDisplay(step, 'pending', 'Pending'));
+        otherSteps.forEach(step => setStepDisplay(step, 'pending', null));
     }
+
+    // Custom showCustomAlert function
+    function showCustomAlert(message) {
+        const alertBox = document.getElementById('custom-alert');
+        const alertMessage = document.getElementById('custom-alert-message');
+        const okButton = document.getElementById('custom-alert-ok');
+
+        // Set the message
+        alertMessage.textContent = message;
+
+        // Show the alert box
+        alertBox.classList.remove('hidden');
+        alertBox.classList.add('visible');
+
+        // Event listener to close the alert on "OK" button click
+        okButton.addEventListener('click', () => {
+            alertBox.classList.remove('visible');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 300); // Match the transition duration
+        }, { once: true });
+
+        // Auto-close after 3 seconds
+        setTimeout(() => {
+            alertBox.classList.remove('visible');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 300); // Match the transition duration
+        }, 6000); // Auto-close after 3 seconds
+    }
+
+
+
+
+    // Example usage
+
+
 
 </script>
 
