@@ -14,7 +14,9 @@ body {
     background-color: #f8f9fe;
 
 }
-
+.container.json{
+        padding-bottom: 47px;
+}
 .container {
     display: grid;
     gap: 20px;
@@ -485,6 +487,7 @@ input[type="radio"] {
 .validate-json {
     display: grid;
     column-gap: 8px;
+    padding: 2px;
     grid-template-columns: 180px auto;
     height: 100%;
 }
@@ -562,6 +565,7 @@ input[type="radio"] {
 .butcontainer:hover {
     background-color: #edecfe;
 }
+
 .butcontainer:focus-within,
 .butt-file:focus {
     border: none;
@@ -569,19 +573,23 @@ input[type="radio"] {
     background-color: #edecfe;
     color: #7468fc;
 }
+
 /* Change the padding of .json-data when the contenteditable element is focused */
 
-[contenteditable="true"]:focus{
+[contenteditable="true"]:focus {
     border: none;
     outline: none;
 }
-[contenteditable="true"]{
+
+[contenteditable="true"] {
     margin: 6px 4px 4px 6px;
 }
-.json-data:focus{
+
+.json-data:focus {
     border: none;
     outline: none;
 }
+
 .butcontainer:focus-within .butt-file {
     border: none;
     outline: none;
@@ -600,10 +608,12 @@ input[type="radio"] {
     box-shadow: none;
     border: none;
 }
-.butt-file:focus{
+
+.butt-file:focus {
     border: none;
     outline: none;
 }
+
 .adder {
     max-height: 250px;
     overflow: auto;
@@ -701,10 +711,12 @@ input[type="radio"] {
     border-radius: 10px;
     /* Rounding corners */
 }
+
 .json-data::-webkit-scrollbar-thumb {
     height: 300px;
     /* Rounding corners */
 }
+
 /* Handle on Hover */
 .adder::-webkit-scrollbar-thumb:hover,
 .json-data::-webkit-scrollbar-thumb:hover {
@@ -863,7 +875,7 @@ input[type="radio"] {
     }
 
     .json .content-container {
-        height: 390px;
+        height: 458px;
         /* Set height for .container inside .json */
     }
 
@@ -885,6 +897,10 @@ input[type="radio"] {
 
     .custom-input {
         gap: 9px;
+    }
+
+    .json-container {
+        height: 94%;
     }
 }
 
@@ -963,7 +979,42 @@ input[type="radio"] {
     stroke: #e06a6a;
 }
 
-.footerbutton {
+.jsonfooterbutton {
     display: flex;
     gap: 20px;
+}
+
+.jsonfooter {
+    padding: 35px 7px;
+    height: 68px;
+    width: 1006px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 21px;
+}
+
+.jsonback {
+    color: #786dfc;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#jsoncancel {
+    border: 1px solid #978ffd;
+    color: #7468fc;
+    background-color: #f8f9fe;
+}
+
+#jsonedit {
+    color: #7468fc;
+    background-color: #f8f9fe;
+    border: 1px solid #8176fc;
+}
+
+#jsonnext {
+    background-color: #978ffd;
+    box-shadow: 0px 0px 4px 4px #e9e7fe;
+    color: #ffffff;
 }

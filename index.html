@@ -182,6 +182,16 @@
                     <div class="json-data">
                     </div>
                     <div class="jsonloading loading hidden"></div>
+                    <div class="jsonfooter ">
+                        <div class="jsonback">
+                            <p class="hidden" id="jsonback-button" onclick="goBack()"><-- Back</p>
+                        </div>
+                        <div class="jsonfooterbutton">
+                            <button class="hidden" id="jsoncancel">Cancel</button>
+                            <button class="hidden" id="jsonedit">Edit</button>
+                            <button id="jsonnext">Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,8 +214,8 @@
                 <p class="hidden" id="back-button" onclick="goBack()"><-- Back</p>
             </div>
             <div class="footerbutton">
-                <button class="hidden" id="cancel">Cancel</button>
-                <button class="hidden" id="edit">Edit</button>
+                <!-- <button class="hidden" id="cancel">Cancel</button> -->
+                <!-- <button class="hidden" id="edit">Edit</button> -->
                 <button id="next">Next</button>
             </div>
         </div>
@@ -234,7 +244,7 @@
     // Target the specific .adder and .role elements
     // Function to close the popup
     function closePopup() {
-        document.getElementById("popup").style.display = "none";
+        document.querySelector(".popup").classList.add('hidden');
     }
     window.onload = function () {
         // Hide all fields except for the language input on page load
@@ -595,15 +605,17 @@
                 console.log("roleArray", roleArray);
                 const uiActions = updateStepUI(step3, step4, roleContainer, null, jsonContainer, null)
                 document.querySelector('.roleloading').classList.add('hidden')
+                document.querySelector('.footer').classList.add('hidden')
                 roleContainer.style.opacity = '1'; // Full opacity
                 roleContainer.style.pointerEvents = 'auto';
                 backButton.classList.remove('hidden')
                 topic.textContent = "Validate JSON"
                 screen++;
                 document.querySelector('.container').classList.add('json');
-                document.getElementById('edit').classList.remove('hidden');
-                document.getElementById('next').textContent = 'Finish';
-                document.getElementById('cancel').classList.remove('hidden');
+                document.getElementById('jsonedit').classList.remove('hidden');
+                document.getElementById('jsonnext').textContent = 'Finish';
+                document.getElementById('jsoncancel').classList.remove('hidden');
+                document.getElementById('jsonback-button').classList.remove('hidden');
                 try {
                     const response = await fetch('http://127.0.0.1:8000/get-json-filename', { method: 'GET' });
                     if (!response.ok) {
@@ -638,7 +650,8 @@
                     clickedFilename = result.filenames[0];
                     console.log("clickedFilename", clickedFilename)
                     // Attach event listener only once to avoid duplicate events
-                    const cancelBtnf = document.getElementById('cancel');
+                    document.querySelector('.jsonfooter').classList.remove('hidden');
+                    const cancelBtnf = document.getElementById('jsoncancel');
                     if (cancelBtnf && !cancelBtnf.hasListener) {
                         cancelBtnf.addEventListener('click', async function () {
                             try {
@@ -814,8 +827,8 @@
     });
 
     // Add event listener to the 'edit' button
-    const edit = document.getElementById('edit');
-    const finish = document.getElementById('next');
+    const edit = document.getElementById('jsonedit');
+    const finish = document.getElementById('jsonnext');
     const jsonData = document.querySelector('.json-data');  // Assuming this is the editable content container
 
     edit.addEventListener('click', function () {
@@ -824,7 +837,9 @@
         edit.textContent = isEditable ? 'Edit' : 'Save';
     });
 
-
+    finish.addEventListener('click',function(){
+        nextButton.click()
+    })
     // Update step UI function
     function updateStepUI(currentStep, nextStep, hideContainer1, hideContainer2, showContainer, isBack = false, topic) {
         if (isBack) {
@@ -870,6 +885,7 @@
                 nextStep.classList.remove('pending');
                 nextStep.classList.add('in-progress');
                 nextStep.children[0].children[0].classList.remove('hidden');
+                nextStep.children[0].children[0].classList.add('inner-circle');
                 nextStep.lastElementChild.textContent = 'In Progress';
                 document.getElementById('change-name').textContent = topic;
             }
@@ -905,8 +921,10 @@
             topic.textContent = 'Role Selection'
             document.querySelector('.container').classList.remove('json');
             edit.classList.add('hidden');
-            document.getElementById('cancel').classList.add('hidden');
+            document.getElementById('jsoncancel').classList.add('hidden');
             finish.textContent = "Next";
+            document.querySelector('.jsonfooter').classList.add('hidden')
+            document.querySelector('.footer').classList.remove('hidden')
             document.querySelector('.popup').classList.add('hidden');
         } else {
             console.log('Already at the beginning');
@@ -969,7 +987,15 @@
         setStepDisplay(currentStep, 'in-progress', 'In Progress');
         document.querySelector('.popup').classList.add('hidden');
         edit.classList.add('hidden');
-        document.getElementById('cancel').classList.add('hidden');
+        document.getElementById('jsoncancel').classList.add('hidden');
+        if(currentStep == step3){
+            document.querySelector('.jsonfooter').classList.add('hidden');
+            document.querySelector('.footer').classList.remove('hidden');
+        }
+        else if (currentStep == step4){
+            document.querySelector('.jsonfooter').classList.remove('hidden');
+            document.querySelector('.footer').classList.add('hidden');
+        }
 
         // Show/hide specific containers and configure UI based on the current step
         hideAllContainers();
@@ -996,9 +1022,13 @@
                 topic.textContent = 'Role Selection';
                 finish.textContent = "Next";
                 document.querySelector('.container').classList.remove('json');
+                document.querySelector('.jsonfooter').classList.add('hidden');
+                document.querySelector('.footer').classList.remove('hidden');
                 break;
             default:
                 console.log("step4");
+                document.querySelector('.jsonfooter').classList.remove('hidden');
+                document.querySelector('.footer').classList.add('hidden');
                 break;
         }
 
